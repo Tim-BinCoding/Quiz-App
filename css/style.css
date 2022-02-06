@@ -1,0 +1,371 @@
+
+*{
+    box-sizing: border-box;
+    margin: 0;
+}
+body{
+    background-image: linear-gradient(120deg, #e0c3fc 0%, #8ec5fc 100%);
+}
+.menu{
+    padding: 1rem 4rem; 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+}
+
+.setLogin{
+    text-decoration: none;
+    background-color: orange;
+    color: white;
+    padding: 8px 12px;
+    border-radius: 4px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+
+}
+.contianerApp{
+    text-align: center;
+}
+.titleh1{
+    padding: 2rem;
+}
+.card{
+    display: flex;
+    justify-content: space-evenly;
+    width: 50%;
+    margin: auto;
+}
+.card-item{
+    padding: 5rem;
+    background-color: #50a4f8;
+    font-size: larger;
+    color: white;
+    margin: 1rem;
+    text-align: center;
+    border-radius: 10px;
+}
+.btn-ToQuiz, .btn-ToCreat{
+    font-size: large;
+    padding: 10px 0;
+    width: 100%;
+    border: none;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    cursor: pointer;
+}
+.btn-hover:hover{
+    background-color: rgb(4, 116, 104);
+    color: white;
+    transition: 0.5s;
+}
+.hide{
+    display: none;
+}
+/* ===================================================================== */
+/* LIST GET DATA  */
+
+.contianerList{
+    width: 70%;
+    text-align: center;
+    margin:2rem auto;
+}
+.imgBack{
+    margin-top: -0.5rem;
+    margin-left: -4rem;
+    float: left;
+    cursor: pointer;
+    background-color: white;
+    border-radius: 50%;
+}
+.imgBack:hover{
+    transform: scale(1.1,1.1);
+}
+
+.setList{
+    list-style: none;
+    display: grid;
+    grid-template-columns: 30% 30% 30%;
+    gap: 1rem;
+}
+
+.li-item{
+    width: 90%;
+    height: 20vh;
+    font-size: larger;
+    background-color: rgb(20, 99, 245);
+    color: white;
+    border-radius: 10px;
+    padding: 10px;
+    line-height: 2.4rem;
+    cursor: pointer;
+}
+.span-quiz{
+    color: black;
+    font-weight: bolder;
+}
+.li-item:hover{
+    background-color: blue;
+   transition-duration: 0.5s;
+}
+
+.btn-input{
+    padding:10px;
+    border-radius: 6px;
+    border:  none;
+    margin-left: -2.5rem;
+    margin-top: 2rem;
+    cursor: pointer;
+    font-weight: bolder;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px;
+    background-color: darkblue;
+    color: white;
+}
+.btn-input:hover{
+    opacity: 90%;
+}
+.cardForm{
+    width: 60%;
+    box-sizing: border-box;
+    margin: auto;
+}
+.card-header{
+    height: 25vh;
+    background-image: url(../img/photo.jfif);
+    background-size: cover;
+    background-position: center;
+    background-blend-mode: color-burn;
+    background-color: rgba(0, 0, 0, 0.13);
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    margin: 1rem;
+    border-radius: 10px;
+
+}
+
+.setForm{
+    padding: 10px;
+    
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+.addQuizTitle{
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    font-size: larger;
+    border-radius: 8px;
+    border-left: 3px solid rgb(6, 10, 223);
+    padding: 30px 10px;
+    background-color: rgb(248, 248, 247);
+}
+
+.inputTitle{
+    padding: 20px 10px;
+    border: none;
+    width: 90%;
+    outline: none;
+    margin: auto;
+    border-radius: 10px;
+    font-size: large;
+    
+}
+.btnAdd{
+    margin-right: 2.5rem;
+    float: right;
+    padding: 10px 20px;
+    border: none;
+    color: white;
+    border-radius: 10px;
+    background-color: rgb(1, 52, 221);
+}
+
+.contentInput{
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+    padding: 30px 10px;
+    padding-bottom: 4rem;
+    background-color: cornsilk;
+    border-radius: 10px;
+    margin: 1rem 0;
+    border-left: 3px solid rgb(6, 10, 223);
+}
+.set-input{
+    width: 100%;
+    padding:4px 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.set-input input[type="text"]{
+    width: 96%;
+    padding: 15px;
+    border-radius: 10px;
+    outline: none;
+    border: none;
+    font-size: large;
+}
+.set-input input[type="checkbox"]{
+    transform: scale(2,2);
+}
+
+.putScore{
+    margin-right: -4.5rem;
+    display: flex;
+    align-items: center;
+    font-weight: bolder;
+    float: right;
+}
+.putScore input{
+    text-align: center;
+    margin: 5px;
+    width: 40%;
+    padding: 15px;
+    border-radius: 10px;
+    background-color: rgb(238, 234, 234);
+    border:  none;
+    outline: none;
+}
+
+.listQuestion{
+    box-sizing: border-box;
+    width: 59%;
+    margin: auto;
+
+}
+
+.listQuestion h2{
+    text-align: center;
+    padding: 30px 15px;
+    background-color: rgb(238, 234, 234);
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.listQuestion button[type="submit"]{
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: none;
+    float: right;
+    font-weight: bolder;
+    margin: 1rem 0;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+}
+
+.listQuestion button[type="submit"]:hover{
+    transform: scale(1.1,1.1);
+    
+}
+
+
+.listQuestion .setListAdd{
+    font-weight: bold;
+    padding: 0;
+    display: block;
+    background-color: rgb(238, 234, 234);
+    border-radius: 10px;
+    
+}
+.setListAdd .li-getquestion{
+    border-left: 3px solid rgb(6, 10, 223);
+    padding: 15px;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(111, 112, 112, 0.15) 0px 0px 0px 1px;
+    margin: 5px 0;
+    border-radius: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.btnInQuest{
+    border: none;
+    width: 20%;
+    display: flex;
+    justify-content: flex-end;
+}
+.setListAdd img{
+    cursor: pointer;
+    width: 30px;
+    margin: 0 5px;
+    border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px, rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+  
+}
+
+
+
+.setListAdd img:hover{
+    transform: scale(1,1);
+    background-color: white;
+}
+
+
+/* =============================================================================== */
+   /* PLAY QUIZ  */
+
+.card-playQuiz{
+    padding: 10px;
+}
+
+.card-playQuiz .question{
+    margin-top: 2rem;
+    text-align: center;
+}
+.requestAnswers{
+    margin-top: 2rem;
+    text-align: center;
+    display: grid;
+    grid-template-columns: auto auto;
+    gap: 2rem;
+}
+
+.requestAnswers span{
+    padding: 20px;
+    border-radius: 10px;
+    color: white;
+    font-size: larger;
+}
+.requestAnswers span:hover{
+    transform: scale(1.04,1.04);
+    cursor: pointer;
+}
+
+.spanAnswers1{
+    background-color: rgb(59, 9, 241);
+}
+.spanAnswers2{
+    background-color: rgb(8, 243, 8);
+}
+.spanAnswers3{
+    background-color: rgb(3, 145, 150);
+}
+.spanAnswers4{
+    background-color: rgb(29, 29, 29);
+}
+.card-playQuiz button{
+    padding: 10px 20px;
+    border:  none;
+    border-radius: 5px;
+    margin: 3rem 45%;
+    cursor: pointer;
+    font-size: larger;
+}
+.card-playQuiz button:hover{
+    background-color: #50a4f8;
+    color: white;
+    transform: scale(1,1);
+}
+
+
+@media (max-width:750px){
+    .card{
+        flex-wrap: wrap;
+    }
+    .setList{
+        display: grid;
+        grid-template-columns: 55% 55%;
+    }
+    .cardForm{
+        width: 99%;
+    }
+    .listQuestion{
+        width: 95%;
+    }
+}

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <title>App quiz</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+     <!-- =============================================================================== -->
+    <!-- header menu -->
+    <div class="menu">
+        <div class="logo">
+            <img src="img/logo.png" alt="" width="10%" class="setlogo">
+        </div>
+       
+        <div class="login"><a href="#" class="setLogin">Login</a> </div>
+    </div>
+    <!-- =============================================================================== -->
+    <!-- CONTIANER BODY -->
+
+    <div class="contianerApp">
+        <h1 class="titleh1">Wellcome to smart quiz app</h1>
+        <div class="card">
+            <div class="card-item">
+                <img src="img/quizicon.png" alt="" class="icon-img">
+                <button class="btn-ToQuiz btn-hover">Play Quiz</button>
+            </div>
+            <div class="card-item">
+                <img src="img/iconcreate.png" alt="" class="icon-img">
+                <button class="btn-ToCreat btn-hover">Create Quiz</button>
+            </div>
+            
+        </div>
+    </div>
+  <!-- =============================================================================== -->
+    <!-- ContianerLists of title quiz -->
+    <div class="contianerList hide">
+        <img src="img/back_icon.png" width="40px" alt="" class="imgBack">
+        <ul class="setList">
+            <li class="li-item"> <span class="span-quiz">Quiz</span><br><span class="title-quiz"> Histories Khmer</span></li>
+           
+        </ul>
+        <input type="button" value="See more >" class="btn-input">
+    </div>
+
+    <!-- =============================================================================== -->
+    <!-- contianer CreatForm -->
+    <div class="contianerForm hide">
+        <div class="cardForm">
+            <img src="img/back_icon.png" width="40px" alt="" class="imgBack">
+            <div class="card-header"></div>
+            <div class="card-body">
+                <form action="#" class="setForm">
+                    <h3 class="addQuizTitle">
+                        <span class="setTextTitle">Title: </span> 
+                        <input type="text" id="getTitle" placeholder="Type title" class="inputTitle"> 
+                    </h3>
+                    <div class="contentInput">
+                        <span class="putScore">Score: <input type="text" placeholder="Set score"></span>
+                        <div class="set-input">
+                            <input type="text" id="QuestionId" placeholder="Add Question">
+            
+                        </div>
+                        <div class="set-input">
+                            <input type="text" placeholder="Answer" id="answer1Id">
+                            <input type="checkbox" name="check" id="A1">
+                        </div>
+                        <div class="set-input">
+                            <input type="text" placeholder="Answer" id="answer2Id">
+                            <input type="checkbox" name="check" id="A2">
+                        </div>
+                        <div class="set-input">
+                            <input type="text" placeholder="Answer" id="answer3Id">
+                            <input type="checkbox" name="check" id="A3">
+                        </div>
+                        <div class="set-input">
+                            <input type="text" placeholder="Answer" id="answer4Id">
+                            <input type="checkbox" name="check" id="A4">
+                        </div>
+                        <input type="button" value="Add+" class="btnAdd">
+                    </div>
+                </form>
+            </div>
+        </div>
+            <!-- ============================================================================= -->
+            <!-- CONTIANER SHOW LIST QUESTION  -->
+            <div class="listQuestion">
+                <h2 class="titleQuiz hide"><span>Quiz: </span> <span id="quizTitle"> </span></h2>
+                <ul class="setListAdd">
+                    <!-- <li class="li-getquestion">
+                        <span class="getValue">QUESTION</span>
+                        <button class="btnInQuest">
+                            <img src="img/edit.png" alt="" class="editor">
+                            <img src="img/delete-icon.png" alt="" class="deleter">
+                            
+                        </button>
+                    </li> -->
+                    
+                </ul> 
+                <button type="submit" id="btnSaveId">SAVE</button>
+            </div>
+
+    </div>
+    <!-- =============================================================================== -->
+    <!-- contianer Play quiz -->
+    <div class="contianerQuiz hide">
+        <div class="cardForm">
+            <div class="card-header"></div>
+            <div class="card-playQuiz">
+                <h3 class="question">Question</h3>
+                <div class="requestAnswers">
+                    <span class="spanAnswers1" id="1">Answer1</span>
+                    <span class="spanAnswers2" id="2">Answer2</span>
+                    <span class="spanAnswers3" id="3">Answer3</span>
+                    <span class="spanAnswers4" id="4">Answer4</span>
+                </div>
+                <button type="submit">Next</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============================================================================== -->
+    <!-- link javascript -->
+    <script src="js/app.js"></script>
+</body>
+</html>
