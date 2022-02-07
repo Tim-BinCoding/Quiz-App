@@ -9,21 +9,17 @@ let contianerCreate = document.querySelector(".contianerForm")
 let contianerQuiz = document.querySelector(".contianerQuiz")
 let listAddQu = document.querySelector(".setListAdd")
 let setLists = document.querySelector(".setList")
-let temporyStorage=[]
 
-let teporyStorages=[
-    { question: "Hello"},
-    {answers:[
-        {answer1:"hi",correct:true},
-        {answer2:"hello",correct:false},
-        {answer3:"Good day",correct:true},
-        {answer4:"What's up?", correct:false}
-        ]
-    }
-]
+let checkAllBox = document.getElementsByName("check")
+countAddQ=0
 
-let primaryStorage = localStorage
-primaryStorage.setItem("div",JSON.stringify(teporyStorages))
+////// LOCAL STORAGE ///////
+
+function myLocalStorages(){
+    let localID=localStorage.length
+    localStorage.setItem("quiz"+localID,JSON.stringify(primaryStorage))
+    primaryStorage=[]
+}
 
 //=======================================================================================
 // FUNCTION 
@@ -36,26 +32,69 @@ function hide(element){
     element.style.display="none"
 }
 
-////////////// GET VALUE FROM USER INPPUT /////////////////
 
-function getValueFromInputs(){
-    
-    let getTitleQuiz=document.getElementById("getTitle").value
+///////////// SELECT ANSWERS ////////////
+
+function selectAnswers(){
+    let temporyStorages=[]
+    let keyQuestion={}
+    let getAnswers=[]
+    let quizTitle=document.getElementById("getTitle").value
     let getQuestion=document.getElementById("QuestionId").value
     let answer1=document.getElementById("answer1Id").value
     let answer2=document.getElementById("answer2Id").value
     let answer3=document.getElementById("answer3Id").value
     let answer4=document.getElementById("answer4Id").value
+    const checkA1=document.getElementById("A1")
+    const checkA2=document.getElementById("A2")
+    const checkA3=document.getElementById("A3")
+    const checkA4=document.getElementById("A4")
     if (getQuestion!=="" && answer1!=="" && answer2!=="" && answer3!=="" && answer4!==""){
-        goodInput()
-
-        addQuestions(getQuestion)
-        clearInput()
+        if (checkA1.checked || checkA2.checked || checkA3.checked || checkA4.checked){
+            keyQuestion.question=getQuestion
+            for (let N=1; N<=4; N++){
+                let keyAnswers={}
+                if (N==1){
+                    keyAnswers.answer1= answer1
+                    keyAnswers.correct=checkA1.checked
+                    getAnswers.push(keyAnswers)
+                }
+                if(N==2){
+                    keyAnswers.answer2= answer2
+                    keyAnswers.correct=checkA2.checked
+                    getAnswers.push(keyAnswers)
+                }if (N==3){
+                    keyAnswers.answer3= answer3
+                    keyAnswers.correct=checkA3.checked
+                    getAnswers.push(keyAnswers)
+                }if (N==4){
+                    keyAnswers.answer4= answer4
+                    keyAnswers.correct=checkA4.checked
+                    getAnswers.push(keyAnswers)
+                }
+                
+            }
+            goodInput()
+            addQuestions(getQuestion)
+            clearInput()
+            temporyStorages.push(keyQuestion)
+            temporyStorages.push(getAnswers)
+            myAnswers(temporyStorages)
+            addTitleQuiz(quizTitle)
+            deSelectAnswers()
+        }else{
+            swal.fire({
+                icon: 'error',
+                title: 'Cannot Add',
+                text: 'Please select your answer',
+                timer: 5000
+            })
+        }
     }else{
         errorInput()
     }
-    addTitleQuiz(getTitleQuiz)
 }
+
 
 ///////////////// CLEAR INFORMATION ////////
 
@@ -66,46 +105,39 @@ function clearInput(){
     document.getElementById("answer3Id").value=""
     document.getElementById("answer4Id").value=""
 }
-
 ///////////// GET ANSWERS ///////////
-
+let primaryStorage=[]
 function myAnswers(element){
-    let arrayAnswers=[]
-    let keyAnswers={}
-    keyAnswers.answer1=element
+    primaryStorage.push(element)
 }
 
-///////////// SELECT ANSWERS ////////////
+/////// EDIT QUESTION AN ANSWERS //////////////
 
-function selectAnswers(){
-    let getAnswers=[]
-    let answer1=document.getElementById("answer1Id").value
-    let answer2=document.getElementById("answer2Id").value
-    let answer3=document.getElementById("answer3Id").value
-    let answer4=document.getElementById("answer4Id").value
-    const checkA1=document.getElementById("A1")
-    const checkA2=document.getElementById("A2")
-    const checkA3=document.getElementById("A3")
-    const checkA4=document.getElementById("A4")
-
-    // if (checkA1.checked){
-    //     getAnswers.answer1=answer1
-    // }if (checkA2.checked){
-    //     getAnswers.answer2=answer2
-    // }
-    // if (checkA3.checked){
-    //     getAnswers.answer3=answer3
-    // }
-    // if (checkA4.checked){
-    //     getAnswers.answer4=answer4
-    // }
+function CheckToEdit(edit){
+    edit.addEventListener("click",(e)=>{
+        if (e.target==edit){
+            let index=e.target.id
+            document.getElementById("QuestionId").value=primaryStorage[index][0].question
+            document.getElementById("answer1Id").value=primaryStorage[index][1][0].answer1
+            document.getElementById("answer2Id").value=primaryStorage[index][1][1].answer2
+            document.getElementById("answer3Id").value=primaryStorage[index][1][2].answer3
+            document.getElementById("answer4Id").value=primaryStorage[index][1][3].answer4
+            primaryStorage.splice(index,1)
+            e.target.parentNode.parentNode.remove()
+            document.querySelector(".btnAdd").value="Update"
+        }
+    })
 }
 
-
+//////////////// DESELECTED /////////////
+function deSelectAnswers(){
+    checkAllBox.forEach((elBox)=> elBox.checked=false)
+    document.querySelector(".btnAdd").value="Add+"
+}
 
 //////////////// ADD QUESTION ////////////////////////
-
 function addQuestions(question){
+    countAddQ=primaryStorage.length
     const li = document.createElement("li")
     li.className = "li-getquestion"
     const span = document.createElement("span")
@@ -118,6 +150,7 @@ function addQuestions(question){
     const imgEdit=document.createElement("img")
     imgEdit.src="img/edit.png"
     imgEdit.className="editor"
+    imgEdit.id=countAddQ
     btn.appendChild(imgEdit)
     let imgDelete=document.createElement("img")
     imgDelete.src="img/delete-icon.png"
@@ -125,10 +158,12 @@ function addQuestions(question){
     btn.appendChild(imgDelete)
     listAddQu.appendChild(li)
     deleteQuestion(imgDelete)
+    CheckToEdit(imgEdit)
+    console.log("storage: ",primaryStorage);
+    
 }
 
 ////////////// ADD QUIZ ////////////
-
 function addTitleQuiz(quiz){
     if (quiz!==""){
         document.getElementById("quizTitle").textContent=quiz
@@ -165,7 +200,7 @@ function errorInput(){
     })
 }
 
-        ///////// SHOW LIST QUIZ ////////
+//////////// SHOW LIST QUIZ ////////////
 
 function listQuizes(element){
     const li = document.createElement("li")
@@ -181,6 +216,19 @@ function listQuizes(element){
     li.appendChild(br)
     li.appendChild(spantitle)
     setLists.appendChild(li)
+    goToPlayQuiz(li)
+
+}
+
+/////// GO TO PLAY QUIZ ////////
+
+function goToPlayQuiz(liQuiz){
+    liQuiz.addEventListener("click",()=>{
+        hide(contianerFirst)
+        show(contianerQuiz)
+        hide(contianerCreate)
+        hide(contianerListTitle)
+    })
 }
 
 
@@ -213,19 +261,28 @@ btnBackToFirst.forEach((btnEl) =>{
 })
 
 const btnAddQuestion = document.querySelector(".btnAdd")
-btnAddQuestion.addEventListener("click",getValueFromInputs)
+btnAddQuestion.addEventListener("click",selectAnswers)
 
 const btnSave=document.getElementById("btnSaveId")
 btnSave.addEventListener("click",()=>{
-    swal.fire({
-        position: 'center',
-        icon: 'success',
-        title: 'Quiz saved',
-        showConfirmButton: false,
-        timer: 3000
-    }) 
-    let valueTitleQuiz=document.getElementById("quizTitle").textContent
-    listQuizes(valueTitleQuiz)
-    document.getElementById("getTitle").value=""
-    
+    let putTitle=document.getElementById("getTitle").value
+    if (putTitle!=""){
+        swal.fire({
+            position: 'center',
+            icon: 'success',
+            title: 'Quiz saved',
+            showConfirmButton: false,
+            timer: 3000
+        }) 
+        listQuizes(putTitle)
+        document.getElementById("getTitle").value=""
+    }else{
+        swal.fire({
+            icon: 'error',
+            title: 'Cannot Save',
+            text: 'Nothing title',
+            timer: 5000
+        })
+    } 
+    myLocalStorages()
 })

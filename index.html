@@ -40,10 +40,8 @@
     <div class="contianerList hide">
         <img src="img/back_icon.png" width="40px" alt="" class="imgBack">
         <ul class="setList">
-            <li class="li-item"> <span class="span-quiz">Quiz</span><br><span class="title-quiz"> Histories Khmer</span></li>
-           
+            <!-- <li class="li-item"> <span class="span-quiz">Quiz</span><br><span class="title-quiz"> Histories Khmer</span></li> -->
         </ul>
-        <input type="button" value="See more >" class="btn-input">
     </div>
 
     <!-- =============================================================================== -->
@@ -62,7 +60,6 @@
                         <span class="putScore">Score: <input type="text" placeholder="Set score"></span>
                         <div class="set-input">
                             <input type="text" id="QuestionId" placeholder="Add Question">
-            
                         </div>
                         <div class="set-input">
                             <input type="text" placeholder="Answer" id="answer1Id">
@@ -80,13 +77,15 @@
                             <input type="text" placeholder="Answer" id="answer4Id">
                             <input type="checkbox" name="check" id="A4">
                         </div>
-                        <input type="button" value="Add+" class="btnAdd">
+                        <a href="#0"><input type="button" value="Add+" class="btnAdd" id="update"></a>
+                        
                     </div>
                 </form>
             </div>
         </div>
             <!-- ============================================================================= -->
             <!-- CONTIANER SHOW LIST QUESTION  -->
+
             <div class="listQuestion">
                 <h2 class="titleQuiz hide"><span>Quiz: </span> <span id="quizTitle"> </span></h2>
                 <ul class="setListAdd">
@@ -102,7 +101,6 @@
                 </ul> 
                 <button type="submit" id="btnSaveId">SAVE</button>
             </div>
-
     </div>
     <!-- =============================================================================== -->
     <!-- contianer Play quiz -->
