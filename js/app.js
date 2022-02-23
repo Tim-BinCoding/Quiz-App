@@ -1,4 +1,66 @@
 
+let questions = [
+    {
+    numb: 1,
+    question: "What does HTML stand for?",
+    answer: "Hyper Text Markup Language", 
+    options: [
+      "Hyper Text Preprocessor",
+      "Hyper Text Markup Language",
+      "Hyper Text Multiple Language",
+      "Hyper Tool Multi Language"
+    ]
+  },
+    {
+    numb: 2,
+    question: "What does CSS stand for?",
+    answer: "Cascading Style Sheet",
+    options: [
+      "Common Style Sheet",
+      "Colorful Style Sheet",
+      "Computer Style Sheet",
+      "Cascading Style Sheet"
+    ]
+  },
+    {
+    numb: 3,
+    question: "What does PHP stand for?",
+    answer: "Hypertext Preprocessor",
+    options: [
+      "Hypertext Preprocessor",
+      "Hypertext Programming",
+      "Hypertext Preprogramming",
+      "Hometext Preprocessor"
+    ]
+  },
+    {
+    numb: 4,
+    question: "What does SQL stand for?",
+    answer: "Structured Query Language",
+    options: [
+      "Stylish Question Language",
+      "Stylesheet Query Language",
+      "Statement Question Language",
+      "Structured Query Language"
+    ]
+  },
+    {
+    numb: 5,
+    question: "What does XML stand for?",
+    answer: "eXtensible Markup Language",
+    options: [
+      "eXtensible Markup Language",
+      "eXecutable Multiple Language",
+      "eXTra Multi-Program Language",
+      "eXamine Multiple Language"
+    ]
+  },
+  
+];
+
+
+
+
 
 //=====================================================================================
 // VARIBLE
@@ -9,17 +71,15 @@ let contianerCreate = document.querySelector(".contianerForm")
 let contianerQuiz = document.querySelector(".contianerQuiz")
 let listAddQu = document.querySelector(".setListAdd")
 let setLists = document.querySelector(".setList")
-
+const dom_btnToquiz = document.querySelector(".btn-ToQuiz")
+let dom_menu = document.querySelector('.menu')
 let checkAllBox = document.getElementsByName("check")
-countAddQ=0
-
-////// LOCAL STORAGE ///////
-
-function myLocalStorages(){
-    let localID=localStorage.length
-    localStorage.setItem("quiz"+localID,JSON.stringify(primaryStorage))
-    primaryStorage=[]
-}
+let countAddQ=0
+let updateQuNum = 0
+let indexEdit=0
+let StorageData=[]
+let listOfContentQuiz={}
+let allListsQuiz=[]
 
 //=======================================================================================
 // FUNCTION 
@@ -32,13 +92,13 @@ function hide(element){
     element.style.display="none"
 }
 
-
 ///////////// SELECT ANSWERS ////////////
 
-function selectAnswers(){
-    let temporyStorages=[]
-    let keyQuestion={}
-    let getAnswers=[]
+function createAnswerAndChose(){
+    let countQ = questions.length
+    let getQInput={}
+    let getOption=[]
+    let thisAnswer=""
     let quizTitle=document.getElementById("getTitle").value
     let getQuestion=document.getElementById("QuestionId").value
     let answer1=document.getElementById("answer1Id").value
@@ -51,37 +111,32 @@ function selectAnswers(){
     const checkA4=document.getElementById("A4")
     if (getQuestion!=="" && answer1!=="" && answer2!=="" && answer3!=="" && answer4!==""){
         if (checkA1.checked || checkA2.checked || checkA3.checked || checkA4.checked){
-            keyQuestion.question=getQuestion
-            for (let N=1; N<=4; N++){
-                let keyAnswers={}
-                if (N==1){
-                    keyAnswers.answer1= answer1
-                    keyAnswers.correct=checkA1.checked
-                    getAnswers.push(keyAnswers)
-                }
-                if(N==2){
-                    keyAnswers.answer2= answer2
-                    keyAnswers.correct=checkA2.checked
-                    getAnswers.push(keyAnswers)
-                }if (N==3){
-                    keyAnswers.answer3= answer3
-                    keyAnswers.correct=checkA3.checked
-                    getAnswers.push(keyAnswers)
-                }if (N==4){
-                    keyAnswers.answer4= answer4
-                    keyAnswers.correct=checkA4.checked
-                    getAnswers.push(keyAnswers)
-                }
-                
+            if (checkA1.checked){
+                thisAnswer = answer1
+            }else if (checkA2.checked){
+                thisAnswer = answer2
+            }else if(checkA3.checked){
+                thisAnswer = answer3
+            }else if(checkA4.checked){
+                thisAnswer = answer4
             }
+            
+            getOption.push(answer1)
+            getOption.push(answer2)
+            getOption.push(answer3)
+            getOption.push(answer4)
+
+            getQInput.numb = countQ+1
+            getQInput.question = getQuestion
+            getQInput.answer = thisAnswer
+            getQInput.options = getOption
+            questions.push(getQInput)
             goodInput()
             addQuestions(getQuestion)
             clearInput()
-            temporyStorages.push(keyQuestion)
-            temporyStorages.push(getAnswers)
-            myAnswers(temporyStorages)
             addTitleQuiz(quizTitle)
             deSelectAnswers()
+       
         }else{
             swal.fire({
                 icon: 'error',
@@ -95,7 +150,6 @@ function selectAnswers(){
     }
 }
 
-
 ///////////////// CLEAR INFORMATION ////////
 
 function clearInput(){
@@ -105,11 +159,6 @@ function clearInput(){
     document.getElementById("answer3Id").value=""
     document.getElementById("answer4Id").value=""
 }
-///////////// GET ANSWERS ///////////
-let primaryStorage=[]
-function myAnswers(element){
-    primaryStorage.push(element)
-}
 
 /////// EDIT QUESTION AN ANSWERS //////////////
 
@@ -117,15 +166,18 @@ function CheckToEdit(edit){
     edit.addEventListener("click",(e)=>{
         if (e.target==edit){
             let index=e.target.id
-            document.getElementById("QuestionId").value=primaryStorage[index][0].question
-            document.getElementById("answer1Id").value=primaryStorage[index][1][0].answer1
-            document.getElementById("answer2Id").value=primaryStorage[index][1][1].answer2
-            document.getElementById("answer3Id").value=primaryStorage[index][1][2].answer3
-            document.getElementById("answer4Id").value=primaryStorage[index][1][3].answer4
-            primaryStorage.splice(index,1)
+            document.getElementById("QuestionId").value = questions[index].question
+            document.getElementById("answer1Id").value = questions[index].options[0]
+            document.getElementById("answer2Id").value = questions[index].options[1]
+            document.getElementById("answer3Id").value = questions[index].options[2]
+            document.getElementById("answer4Id").value = questions[index].options[3] 
             e.target.parentNode.parentNode.remove()
             document.querySelector(".btnAdd").value="Update"
-        }
+            updateQuNum = questions[index].numb
+            indexEdit = index
+            questions.splice(index,1)
+            console.log("berforeedit", questions);
+          }
     })
 }
 
@@ -137,7 +189,6 @@ function deSelectAnswers(){
 
 //////////////// ADD QUESTION ////////////////////////
 function addQuestions(question){
-    countAddQ=primaryStorage.length
     const li = document.createElement("li")
     li.className = "li-getquestion"
     const span = document.createElement("span")
@@ -159,18 +210,115 @@ function addQuestions(question){
     listAddQu.appendChild(li)
     deleteQuestion(imgDelete)
     CheckToEdit(imgEdit)
-    console.log("storage: ",primaryStorage);
+    countAddQ++
+}
+
+//////// UPDATE ////////////////
+
+function updateQbyHTML(question){
+    const li = document.createElement("li")
+    li.className = "li-getquestion"
+    const span = document.createElement("span")
+    span.className = "getValue"
+    span.textContent=question
+    li.appendChild(span)
+    let btn=document.createElement("button")
+    btn.className = "btnInQuest"
+    li.appendChild(btn)
+    const imgEdit=document.createElement("img")
+    imgEdit.src="img/edit.png"
+    imgEdit.className="editor"
+    imgEdit.id = indexEdit
+    btn.appendChild(imgEdit)
+    let imgDelete=document.createElement("img")
+    imgDelete.src="img/delete-icon.png"
+    imgDelete.className="deleter"
+    btn.appendChild(imgDelete)
+    listAddQu.appendChild(li)
+    deleteQuestion(imgDelete)
+    CheckToEdit(imgEdit)
+    console.log('li: ', listAddQu);
     
+}
+
+///////// UPDATE QUESTION ////////////
+function updateQuestion(){
+    let getQInput={}
+    let getOption=[]
+    let thisAnswer=""
+    let quizTitle=document.getElementById("getTitle").value
+    let getQuestion=document.getElementById("QuestionId").value
+    let answer1=document.getElementById("answer1Id").value
+    let answer2=document.getElementById("answer2Id").value
+    let answer3=document.getElementById("answer3Id").value
+    let answer4=document.getElementById("answer4Id").value
+    const checkA1=document.getElementById("A1")
+    const checkA2=document.getElementById("A2")
+    const checkA3=document.getElementById("A3")
+    const checkA4=document.getElementById("A4")
+    if (getQuestion!=="" && answer1!=="" && answer2!=="" && answer3!=="" && answer4!==""){
+        if (checkA1.checked || checkA2.checked || checkA3.checked || checkA4.checked){
+            if (checkA1.checked){
+                thisAnswer = answer1
+            }else if (checkA2.checked){
+                thisAnswer = answer2
+            }else if(checkA3.checked){
+                thisAnswer = answer3
+            }else if(checkA4.checked){
+                thisAnswer = answer4
+            }
+            getOption.push(answer1)
+            getOption.push(answer2)
+            getOption.push(answer3)
+            getOption.push(answer4)
+
+            getQInput.numb = updateQuNum
+            getQInput.question = getQuestion
+            getQInput.answer = thisAnswer
+            getQInput.options = getOption
+            questions.splice(indexEdit, 0, getQInput);
+            goodInput()
+            updateQbyHTML(getQuestion)
+            clearInput()
+            addTitleQuiz(quizTitle)
+            deSelectAnswers()
+        }else{
+            swal.fire({
+                icon: 'error',
+                title: 'Cannot Update',
+                text: 'Please select your answer',
+                timer: 5000
+            })
+        }
+    }else{
+        errorInput()
+    }
+}
+
+/////// CHECK ADD OR UPDATE QUESTION //////
+function checkAddOrUpdate(){
+    if (document.querySelector(".btnAdd").value.toLowerCase()=="add+"){
+        createAnswerAndChose()
+        console.log('add Question');
+    }else if(element="update"){
+        console.log("update question");
+        updateQuestion()
+    }
+}
+
+function showListQuestion(){
+    for (let index = 0; index < questions.length ; index++){
+       addQuestions(questions[index].question)
+    }
 }
 
 ////////////// ADD QUIZ ////////////
 function addTitleQuiz(quiz){
     if (quiz!==""){
-        document.getElementById("quizTitle").textContent=quiz
+        document.getElementById("subjectQuiz").textContent=quiz
         document.querySelector(".titleQuiz").classList.remove("hide")
     }
 }
-
 /////////// DELETE QUESTION ////////////
 
 function deleteQuestion(deletes){
@@ -200,73 +348,58 @@ function errorInput(){
     })
 }
 
-//////////// SHOW LIST QUIZ ////////////
-
-function listQuizes(element){
-    const li = document.createElement("li")
-    li.className="li-item"
-    const span = document.createElement("span")
-    span.className="span-quiz"
-    span.textContent="Quiz"
-    const br=document.createElement("br")
-    const spantitle = document.createElement("span")
-    spantitle.className="title-quiz"
-    spantitle.textContent=element
-    li.appendChild(span)
-    li.appendChild(br)
-    li.appendChild(spantitle)
-    setLists.appendChild(li)
-    goToPlayQuiz(li)
-
-}
-
 /////// GO TO PLAY QUIZ ////////
-
-function goToPlayQuiz(liQuiz){
-    liQuiz.addEventListener("click",()=>{
-        hide(contianerFirst)
-        show(contianerQuiz)
-        hide(contianerCreate)
-        hide(contianerListTitle)
-    })
-}
-
-
-// =====================================================================================
-// EVENT BUTTON
-let btnToListTitle=document.querySelector(".btn-ToQuiz")
-btnToListTitle.addEventListener("click",()=>{
+dom_btnToquiz.addEventListener("click",()=>{
     hide(contianerFirst)
-    hide(contianerQuiz)
+    show(contianerQuiz)
     hide(contianerCreate)
-    show(contianerListTitle)
+    addTitleQuiz("Language code")
+    document.getElementById("quizTitle").textContent = document.getElementById("subjectQuiz").textContent
+    document.getElementById("showtitle").textContent = document.getElementById("subjectQuiz").textContent
+    // hide(dom_menu)
 })
 
-let btnToCreate=document.querySelector(".btn-ToCreat")
+// =====================================================================================
+let counterCreate=1
+let btnToCreate = document.querySelector(".btn-ToCreat")
 btnToCreate.addEventListener("click",()=>{
     hide(contianerFirst)
     hide(contianerQuiz)
     show(contianerCreate)
-    hide(contianerListTitle)
+    addTitleQuiz("Language code")
+    saved=false
+    if (counterCreate==1){
+        showListQuestion()
+        counterCreate++
+    }
 })
 
-let btnBackToFirst=document.querySelectorAll(".imgBack")
+let saved = true
+let btnBackToFirst = document.querySelectorAll(".imgBack")
 btnBackToFirst.forEach((btnEl) =>{
     btnEl.addEventListener("click",()=>{
-        hide(contianerListTitle)
-        hide(contianerQuiz)
-        hide(contianerCreate)
-        show(contianerFirst)
+        if (saved==true){
+            hide(contianerQuiz)
+            hide(contianerCreate)
+            show(contianerFirst)
+        }else{
+            swal.fire({
+                icon: 'error',
+                title: 'Cannot back',
+                text: 'You need to save',
+                timer: 5000
+            })
+        }
     })
 })
 
 const btnAddQuestion = document.querySelector(".btnAdd")
-btnAddQuestion.addEventListener("click",selectAnswers)
+btnAddQuestion.addEventListener("click", checkAddOrUpdate)
 
-const btnSave=document.getElementById("btnSaveId")
+const btnSave = document.getElementById("btnSaveId")
 btnSave.addEventListener("click",()=>{
-    let putTitle=document.getElementById("getTitle").value
-    if (putTitle!=""){
+    let putTitle = document.getElementById("subjectQuiz").textContent
+    if (putTitle!="" && questions.length>0){
         swal.fire({
             position: 'center',
             icon: 'success',
@@ -274,8 +407,11 @@ btnSave.addEventListener("click",()=>{
             showConfirmButton: false,
             timer: 3000
         }) 
-        listQuizes(putTitle)
-        document.getElementById("getTitle").value=""
+        saved=true
+        document.getElementById("quizTitle").textContent = putTitle
+        document.getElementById("showtitle").textContent = putTitle
+        document.getElementById("getTitle").value = ""
+        
     }else{
         swal.fire({
             icon: 'error',
@@ -284,5 +420,223 @@ btnSave.addEventListener("click",()=>{
             timer: 5000
         })
     } 
-    myLocalStorages()
+
+    
 })
+
+//////////// PLAY QUIZ ////////////////
+
+//selecting all required elements
+const start_btn = document.querySelector(".start_btn button");
+const info_box = document.querySelector(".info_box");
+const exit_btn = info_box.querySelector(".buttons .quit");
+const continue_btn = info_box.querySelector(".buttons .restart");
+const quiz_box = document.querySelector(".quiz_box");
+const result_box = document.querySelector(".result_box");
+const option_list = document.querySelector(".option_list");
+const time_line = document.querySelector("header .time_line");
+const timeText = document.querySelector(".timer .time_left_txt");
+const timeCount = document.querySelector(".timer .timer_sec");
+
+// if startQuiz button clicked
+start_btn.onclick = ()=>{
+    info_box.classList.add("activeInfo"); //show info box
+}
+
+// if exitQuiz button clicked
+exit_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo"); //hide info box
+}
+
+// if continueQuiz button clicked
+continue_btn.onclick = ()=>{
+    info_box.classList.remove("activeInfo"); //hide info box
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    showQuetions(0); //calling showQestions function
+    queCounter(1); //passing 1 parameter to queCounter
+    startTimer(15); //calling startTimer function
+    startTimerLine(0); //calling startTimerLine function
+}
+
+let timeValue =  15;
+let que_count = 0;
+let que_numb = 1;
+let userScore = 0;
+let counter;
+let counterLine;
+let widthValue = 0;
+
+const restart_quiz = result_box.querySelector(".buttons .restart");
+const quit_quiz = result_box.querySelector(".buttons .quit");
+
+// if restartQuiz button clicked
+restart_quiz.onclick = ()=>{
+    quiz_box.classList.add("activeQuiz"); //show quiz box
+    result_box.classList.remove("activeResult"); //hide result box
+    timeValue = 15; 
+    que_count = 0;
+    que_numb = 1;
+    userScore = 0;
+    widthValue = 0;
+    showQuetions(que_count); //calling showQestions function
+    queCounter(que_numb); //passing que_numb value to queCounter
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    startTimer(timeValue); //calling startTimer function
+    startTimerLine(widthValue); //calling startTimerLine function
+    timeText.textContent = "Time Left"; //change the text of timeText to Time Left
+    next_btn.classList.remove("show"); //hide the next button
+}
+
+// if quitQuiz button clicked
+quit_quiz.onclick = ()=>{
+    window.location.reload(); //reload the current window
+}
+
+const next_btn = document.querySelector("footer .next_btn");
+const bottom_ques_counter = document.querySelector("footer .total_que");
+
+// if Next Que button clicked
+next_btn.onclick = ()=>{
+    if(que_count < questions.length - 1){ //if question count is less than total question length
+        que_count++; //increment the que_count value
+        que_numb++; //increment the que_numb value
+        showQuetions(que_count); //calling showQestions function
+        queCounter(que_numb); //passing que_numb value to queCounter
+        clearInterval(counter); //clear counter
+        clearInterval(counterLine); //clear counterLine
+        startTimer(timeValue); //calling startTimer function
+        startTimerLine(widthValue); //calling startTimerLine function
+        timeText.textContent = "Time Left"; //change the timeText to Time Left
+        next_btn.classList.remove("show"); //hide the next button
+    }else{
+        clearInterval(counter); //clear counter
+        clearInterval(counterLine); //clear counterLine
+        showResult(); //calling showResult function
+    }
+}
+
+// getting questions and options from array
+function showQuetions(index){
+    const que_text = document.querySelector(".que_text");
+    //creating a new span and div tag for question and option and passing the value using array index
+    let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
+    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
+    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
+    que_text.innerHTML = que_tag; //adding new span tag inside que_tag
+    option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+    
+    const option = option_list.querySelectorAll(".option");
+
+    // set onclick attribute to all available options
+    for(i=0; i < option.length; i++){
+        option[i].setAttribute("onclick", "optionSelected(this)");
+        console.log(i+", : ", option[i]);
+    }
+}
+
+// creating the new div tags which for icons
+let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
+let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
+
+//if user clicked on option
+function optionSelected(answer){
+
+    clearInterval(counter); //clear counter
+    clearInterval(counterLine); //clear counterLine
+    let userAns = answer.textContent; //getting user selected option
+    let correcAns = questions[que_count].answer; //getting correct answer from array
+    const allOptions = option_list.children.length; //getting all option items
+    
+    if(userAns == correcAns){ //if user selected option is equal to array's correct answer
+        userScore += 1; //upgrading score value with 1
+        answer.classList.add("correct"); //adding green color to correct selected option
+        answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
+        console.log("Correct Answer");
+        console.log("Your correct answers = " + userScore);
+    }else{
+        answer.classList.add("incorrect"); //adding red color to correct selected option
+        answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
+        console.log("Wrong Answer");
+
+        for(i=0; i < allOptions; i++){
+            if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer 
+                option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+                option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+                console.log("Auto selected correct answer.");
+            }
+        }
+    }
+    for(i=0; i < allOptions; i++){
+        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+    }
+    next_btn.classList.add("show"); //show the next button if user selected any option
+}
+
+function showResult(){
+    info_box.classList.remove("activeInfo"); //hide info box
+    quiz_box.classList.remove("activeQuiz"); //hide quiz box
+    result_box.classList.add("activeResult"); //show result box
+    const scoreText = result_box.querySelector(".score_text");
+    if (userScore > 3){ // if user scored more than 3
+        //creating a new span tag and passing the user score number and total question number
+        let scoreTag = '<span>and congrats! , You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
+    }
+    else if(userScore > 1){ // if user scored more than 1
+        let scoreTag = '<span>and nice , You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        scoreText.innerHTML = scoreTag;
+    }
+    else{ // if user scored less than 1
+        let scoreTag = '<span>and sorry , You got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
+        scoreText.innerHTML = scoreTag;
+    }
+}
+
+function startTimer(time){
+    counter = setInterval(timer, 1000);
+    function timer(){
+        timeCount.textContent = time; //changing the value of timeCount with time value
+        time--; //decrement the time value
+        if(time < 9){ //if timer is less than 9
+            let addZero = timeCount.textContent; 
+            timeCount.textContent = "0" + addZero; //add a 0 before time value
+        }
+        if(time < 0){ //if timer is less than 0
+            clearInterval(counter); //clear counter
+            timeText.textContent = "Time Off"; //change the time text to time off
+            const allOptions = option_list.children.length; //getting all option items
+            let correcAns = questions[que_count].answer; //getting correct answer from array
+            for(i=0; i < allOptions; i++){
+                if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
+                    option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
+                    option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
+                    console.log("Time Off: Auto selected correct answer.");
+                }
+            }
+            for(i=0; i < allOptions; i++){
+                option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
+            }
+            next_btn.classList.add("show"); //show the next button if user selected any option
+        }
+    }
+}
+
+function startTimerLine(time){
+    counterLine = setInterval(timer, 24);
+    function timer(){
+        time += 1; //upgrading time value with 1
+        time_line.style.width = time + "px"; //increasing width of time_line with px by time value
+        if(time > 649){ //if time value is greater than 549
+            clearInterval(counterLine); //clear counterLine
+        }
+    }
+}
+
+function queCounter(index){
+    //creating a new span tag and passing the question number and total question
+    let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
+    bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
+}
