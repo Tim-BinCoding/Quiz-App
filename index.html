@@ -46,11 +46,13 @@
             <div class="card-body">
                 <form action="#" class="setForm">
                     <h3 class="addQuizTitle">
-                        <span class="setTextTitle">Title: </span> 
-                        <input type="text" id="getTitle" placeholder="Type title" class="inputTitle"> 
+                        <span class="setTextTitle">Title: <input type="text" id="getTitle" placeholder="Type title" class="inputTitle"> </span> 
+                        
+                        <span>Timer : <input type="text" id="gettimer" placeholder="time" class="settime"> </span>
+
                     </h3>
                     <div class="contentInput">
-                        <span class="putScore">Score: <input type="text" placeholder="Set score"></span>
+                        <span class="putScore">Score: <input type="text" placeholder="Set score" id="getScore"></span>
                         <div class="set-input">
                             <input type="text" id="QuestionId" placeholder="Add Question">
                         </div>
@@ -104,7 +106,7 @@
         <div class="info_box">
             <div class="info-title"><span>Some Rules of this Quiz</span></div>
             <div class="info-list">
-                <div class="info">1. You will have only <span>15 seconds</span> per each question.</div>
+                <div class="info">1. You will have only <span id="timeRule">15 </span> seconds per each question.</div>
                 <div class="info">2. Once you select your answer, it can't be undone.</div>
                 <div class="info">3. You can't select any option once time goes off.</div>
                 <div class="info">4. You can't exit from the Quiz while you're playing.</div>
@@ -121,9 +123,12 @@
                 <div class="title" id="quizTitle">Awesome Quiz Application</div>
                 <div class="timer">
                     <div class="time_left_txt">Time Left</div>
-                    <div class="timer_sec">15</div>
+                    <div class="timer_sec" id="timeplay">15</div>
                 </div>
-                <div class="time_line"></div>
+                <!-- time line  -->
+
+                <!-- <div class="time_line"></div> -->
+                
             </header>
             <section>
                 <div class="que_text">
